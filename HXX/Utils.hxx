@@ -151,7 +151,6 @@ uHEX32 RawToRvaOffset( PIMAGE_NT_HEADERS NtHeaders , uHEX32 Raw , PIMAGE_SECTION
 uHEX32 RvaToRawOffset32( PIMAGE_NT_HEADERS32 NtHeaders , uHEX32 Rva , PIMAGE_SECTION_HEADER SectionHeaderF = nullptr );
 
 uHEX32 RawToRvaOffset32( PIMAGE_NT_HEADERS32 NtHeaders , uHEX32 Raw , PIMAGE_SECTION_HEADER SectionHeaderF = nullptr );
-uintptr_t FindPattern( std::string moduleName , std::string pattern );
 
 // Each memory bytes have a protection flag set on it for every processes, we can modify it with VirtualProtectEx.
 // This is the case too with sections when it's written into memory.

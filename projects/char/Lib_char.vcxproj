@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\CPP\FileSystem.cpp" />
     <ClCompile Include="..\..\CPP\Process.cpp" />
     <ClCompile Include="..\..\CPP\SigScanning.cpp" />
+    <ClCompile Include="..\..\CPP\TestMemory.cpp" />
     <ClCompile Include="..\..\CPP\Utils.cpp" />
     <ClCompile Include="..\..\CPP\VirtualMemory.cpp" />
   </ItemGroup>
@@ -36,9 +37,6 @@
     <ClInclude Include="..\..\HXX\SigScanning.hxx" />
     <ClInclude Include="..\..\HXX\Utils.hxx" />
     <ClInclude Include="..\..\HXX\VirtualMemory.hxx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\README.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6017AC9E-EC40-43E6-88AF-CE8AF80F5D80}</ProjectGuid>

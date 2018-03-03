@@ -1,6 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="HXX">
+      <UniqueIdentifier>{2582055a-9443-4737-b1af-5185412ad58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CPP">
+      <UniqueIdentifier>{c9d77e11-708b-4bb7-a341-5df7544480cf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="..\..\CPP\Console.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
@@ -14,6 +22,9 @@
       <Filter>CPP</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CPP\SigScanning.cpp">
+      <Filter>CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\CPP\TestMemory.cpp">
       <Filter>CPP</Filter>
     </ClCompile>
     <ClCompile Include="..\..\CPP\Utils.cpp">
@@ -30,10 +41,10 @@
     <ClInclude Include="..\..\HXX\FileSystem.hxx">
       <Filter>HXX</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HXX\Lib.hxx">
+    <ClInclude Include="..\..\HXX\Includes.hxx">
       <Filter>HXX</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\HXX\Includes.hxx">
+    <ClInclude Include="..\..\HXX\Lib.hxx">
       <Filter>HXX</Filter>
     </ClInclude>
     <ClInclude Include="..\..\HXX\Process.hxx">
@@ -48,16 +59,5 @@
     <ClInclude Include="..\..\HXX\VirtualMemory.hxx">
       <Filter>HXX</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="HXX">
-      <UniqueIdentifier>{2582055a-9443-4737-b1af-5185412ad58a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="CPP">
-      <UniqueIdentifier>{c9d77e11-708b-4bb7-a341-5df7544480cf}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\README.md" />
   </ItemGroup>
 </Project>
