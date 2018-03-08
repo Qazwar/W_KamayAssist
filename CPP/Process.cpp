@@ -13,31 +13,6 @@ bool N_Process::FixBaseRelocation( HEX HexDelta , PWORD pwRelocationAddress , By
             N_Console::PrintDebug<FOREGROUND_CYAN>( TEXT( "IMAGE_REL_BASED_ABSOLUTE [%i]\n" ) , iCountReloc );
             break;
         }
-        // Doesn't seem to appear anyway can be removed probably
-        case IMAGE_REL_BASED_HIGH:
-        {
-            PSHORT sRaw = ( PSHORT ) ( pbRelocationBlock + IMR_RELOFFSET( *pwRelocationAddress >> 16 ) );
-            SHORT sBackup = *sRaw;
-
-            *sRaw += HIWORD( HexDelta );
-
-            N_Console::PrintDebug<FOREGROUND_CYAN>( TEXT( "IMAGE_REL_BASED_HIGH (0x%p) -> (0x%p) [%i]\n" ) ,
-                                                    sBackup , *sRaw , iCountReloc );
-            break;
-        }
-        // Doesn't seem to appear anyway can be removed probably
-        case IMAGE_REL_BASED_LOW:
-        {
-            PSHORT sRaw = ( PSHORT ) ( pbRelocationBlock + IMR_RELOFFSET( *pwRelocationAddress ) );
-            SHORT sBackup = *sRaw;
-
-            *sRaw += LOWORD( HexDelta );
-
-            N_Console::PrintDebug<FOREGROUND_CYAN>( TEXT( "IMAGE_REL_BASED_LOW (0x%p) -> (0x%p) [%i]\n" ) ,
-                                                    sBackup , *sRaw , iCountReloc );
-
-            break;
-        }
         case IMAGE_REL_BASED_HIGHLOW:
         {
             PDWORD32 dwRaw = ( PDWORD32 ) ( pbRelocationBlock + IMR_RELOFFSET( *pwRelocationAddress ) );
