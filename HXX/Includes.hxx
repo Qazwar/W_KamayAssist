@@ -2,10 +2,7 @@
 #define LIB_INCLUDES
 #pragma once
 
-#ifndef _DEBUG
-#define _HAS_EXCEPTIONS 0
-#define _SECURE_SCL 0
-#endif
+#pragma warning(disable:4100)
 
 #include <windows.h>
 #include <process.h>
