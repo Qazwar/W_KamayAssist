@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestMemory", "projects\TestMemory\TestMemory.vcxproj", "{B7AF14A8-94EB-428F-A763-C369176CF30C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6017AC9E-EC40-43E6-88AF-CE8AF80F5D80} = {6017AC9E-EC40-43E6-88AF-CE8AF80F5D80}
+		{6833E6AB-DEEB-44C5-AC3A-AF24ECF5FB5C} = {6833E6AB-DEEB-44C5-AC3A-AF24ECF5FB5C}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lib_wchar", "projects\wchar\Lib_wchar.vcxproj", "{6833E6AB-DEEB-44C5-AC3A-AF24ECF5FB5C}"
 EndProject

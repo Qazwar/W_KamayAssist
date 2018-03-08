@@ -185,48 +185,6 @@ uHEX32 RawToRvaOffset( PIMAGE_NT_HEADERS NtHeaders , uHEX32 Raw , PIMAGE_SECTION
     return 0x0;
 }
 
-uHEX32 RvaToRawOffset32( PIMAGE_NT_HEADERS32 NtHeaders , uHEX32 Rva , PIMAGE_SECTION_HEADER SectionHeaderF )
-{
-    PIMAGE_SECTION_HEADER SectionHeader = IMAGE_FIRST_SECTION( NtHeaders );
-
-    for ( WORD i = 0; i < NtHeaders->FileHeader.NumberOfSections; i++ )
-    {
-        if ( Rva >= ( uHEX32 ) SectionHeader[ i ].VirtualAddress )
-        {
-            if ( ( Rva - SectionHeader[ i ].VirtualAddress ) < SectionHeader[ i ].Misc.VirtualSize )
-            {
-                if ( SectionHeaderF != nullptr )
-                    SectionHeaderF = &SectionHeader[ i ];
-
-                return ( uHEX32 ) ( Rva - SectionHeader[ i ].VirtualAddress ) + SectionHeader[ i ].PointerToRawData;
-            }
-        }
-    }
-
-    return 0x0;
-}
-
-uHEX32 RawToRvaOffset32( PIMAGE_NT_HEADERS32 NtHeaders , uHEX32 Raw , PIMAGE_SECTION_HEADER SectionHeaderF )
-{
-    PIMAGE_SECTION_HEADER SectionHeader = IMAGE_FIRST_SECTION( NtHeaders );
-
-    for ( WORD i = 0; i < NtHeaders->FileHeader.NumberOfSections; i++ )
-    {
-        if ( Raw >= ( uHEX32 ) SectionHeader[ i ].PointerToRawData )
-        {
-            if ( ( Raw - SectionHeader[ i ].PointerToRawData ) < SectionHeader[ i ].SizeOfRawData )
-            {
-                if ( SectionHeaderF != nullptr )
-                    SectionHeaderF = &SectionHeader[ i ];
-
-                return ( uHEX32 ) ( Raw - SectionHeader[ i ].PointerToRawData ) + SectionHeader[ i ].VirtualAddress;
-            }
-        }
-    }
-
-    return 0x0;
-}
-
 // Each memory bytes have a protection flag set on it for every processes, we can modify it with VirtualProtectEx.
 // This is the case too with sections when it's written into memory.
 // It has protection flags, and we set it accordignly to the characteristipc of the sections , so it looks "legit".

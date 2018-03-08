@@ -1,27 +1,27 @@
 #include "Lib.hxx"
 
-SigScanning::SigScanning( stdString _sProcessName , stdString _sName )
+SigScanningFile::SigScanningFile( stdString _sProcessName , stdString _sName )
 {
     sName = _sName;
     pProcess = new N_Process::Process( _sProcessName );
     pFirstOffset = nullptr;
 }
 
-SigScanning::SigScanning( HEX _HexProcID , stdString _sName )
+SigScanningFile::SigScanningFile( HEX _HexProcID , stdString _sName )
 {
     sName = _sName;
     pProcess = new N_Process::Process( _HexProcID );
     pFirstOffset = nullptr;
 }
 
-SigScanning::SigScanning( Pointer _pProcess , stdString _sName )
+SigScanningFile::SigScanningFile( Pointer _pProcess , stdString _sName )
 {
     sName = _sName;
     pProcess = new N_Process::Process( _pProcess );
     pFirstOffset = nullptr;
 }
 
-SigScanning::SigScanning( Pointer _pProcess , std::vector<Byte> bytes , stdString Module , stdString _sName )
+SigScanningFile::SigScanningFile( Pointer _pProcess , std::vector<Byte> bytes , stdString Module , stdString _sName )
 {
     sName = _sName;
     pProcess = new N_Process::Process( _pProcess );
@@ -29,14 +29,14 @@ SigScanning::SigScanning( Pointer _pProcess , std::vector<Byte> bytes , stdStrin
     Scan( bytes , Module );
 }
 
-SigScanning::~SigScanning()
+SigScanningFile::~SigScanningFile()
 {
     OffsetsFound.clear();
     sName.clear();
     pFirstOffset = nullptr;
 }
 
-void SigScanning::FindOffsets( stdString sModuleName , Pointer pAddress , Pointer pTemp , HEX Size , std::vector<Byte> bytes , bool *pbFoundAOnce )
+void SigScanningFile::FindOffsets( stdString sModuleName , Pointer pAddress , Pointer pTemp , HEX Size , std::vector<Byte> bytes , bool *pbFoundAOnce )
 {
     // Set to false by first so we can tell we didn't find anything.
 
@@ -148,7 +148,7 @@ void SigScanning::FindOffsets( stdString sModuleName , Pointer pAddress , Pointe
     }
 }
 
-void SigScanning::Scan( std::vector<Byte> bytes , stdString Module )
+void SigScanningFile::Scan( std::vector<Byte> bytes , stdString Module )
 {
     pFirstOffset = nullptr;
 
@@ -216,21 +216,24 @@ void SigScanning::Scan( std::vector<Byte> bytes , stdString Module )
     }
 }
 
-void SigScanning::PrintAllOffsets()
+void SigScanningFile::PrintAllOffsets()
 {
-    uHEX i = 0;
     for ( auto it = OffsetsFound.begin(); it != OffsetsFound.end(); it++ )
     {
-        for ( ; i < it->pOffsets.size(); i++ )
+        for ( uHEX i = 0; i < it->pOffsets.size(); i++ )
         {
             N_Console::Print<FOREGROUND_CYAN>( TEXT( "Module: %s (%p) Offset: %p\n" ) , it->sModuleName.c_str() , it->pModuleAddress , it->pOffsets[ i ] );
         }
     }
 }
 
-void SigScanning::Scan( Pointer pData , HEX Size , stdString Module )
+void SigScanningFile::Scan( Pointer pData , HEX Size , stdString Module )
 {
     std::vector<Byte> bytes( Size );
     memcpy( bytes.data() , pData , Size );
     Scan( bytes , Module );
+}
+
+void SigScanningFile::Scan( std::string sBytes , stdString Module )
+{
 }

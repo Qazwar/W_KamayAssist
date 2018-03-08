@@ -13,9 +13,10 @@ bool N_Process::FixBaseRelocation( HEX HexDelta , PWORD pwRelocationAddress , By
             N_Console::PrintDebug<FOREGROUND_CYAN>( TEXT( "IMAGE_REL_BASED_ABSOLUTE [%i]\n" ) , iCountReloc );
             break;
         }
+        // Doesn't seem to appear anyway can be removed probably
         case IMAGE_REL_BASED_HIGH:
         {
-            PSHORT sRaw = ( PSHORT ) ( pbRelocationBlock + IMR_RELOFFSET( *pwRelocationAddress ) );
+            PSHORT sRaw = ( PSHORT ) ( pbRelocationBlock + IMR_RELOFFSET( *pwRelocationAddress >> 16 ) );
             SHORT sBackup = *sRaw;
 
             *sRaw += HIWORD( HexDelta );
@@ -24,6 +25,7 @@ bool N_Process::FixBaseRelocation( HEX HexDelta , PWORD pwRelocationAddress , By
                                                     sBackup , *sRaw , iCountReloc );
             break;
         }
+        // Doesn't seem to appear anyway can be removed probably
         case IMAGE_REL_BASED_LOW:
         {
             PSHORT sRaw = ( PSHORT ) ( pbRelocationBlock + IMR_RELOFFSET( *pwRelocationAddress ) );
@@ -57,6 +59,7 @@ bool N_Process::FixBaseRelocation( HEX HexDelta , PWORD pwRelocationAddress , By
             N_Console::PrintDebug<FOREGROUND_CYAN>( TEXT( "IMAGE_REL_BASED_DIR64 (0x%p) -> (0x%p) [%i]\n" ) ,
                                                     dwBackup , *dwRaw , iCountReloc );
         }
+        // This should be fixed also, but it doesn't seem to appear anyway
         case IMAGE_REL_BASED_HIGHADJ:
         {
             N_Console::PrintDebug<FOREGROUND_CYAN>( TEXT( "IMAGE_REL_BASED_HIGHADJ  [%i]\n" ) , iCountReloc );

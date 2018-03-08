@@ -10,23 +10,25 @@ struct sOffsetsFound
     stdString sModuleName;
 };
 
-class SigScanning
+class SigScanningFile
 {
 public:
 
-    SigScanning( stdString _sProcessName , stdString _sName = TEXT( "TmpScan" ) );
+    SigScanningFile( stdString _sProcessName , stdString _sName = TEXT( "TmpScan" ) );
 
-    SigScanning( HEX _HexProcID , stdString _sName = TEXT( "TmpScan" ) );
+    SigScanningFile( HEX _HexProcID , stdString _sName = TEXT( "TmpScan" ) );
 
-    SigScanning( Pointer _pProcess , stdString _sName = TEXT( "TmpScan" ) );
+    SigScanningFile( Pointer _pProcess , stdString _sName = TEXT( "TmpScan" ) );
 
-    SigScanning( Pointer _pProcess , std::vector<Byte> bytes , stdString Module = TEXT( "NoModules" ) , stdString _sName = TEXT( "TmpScan" ) );
+    SigScanningFile( Pointer _pProcess , std::vector<Byte> bytes , stdString Module = TEXT( "NoModules" ) , stdString _sName = TEXT( "TmpScan" ) );
 
-    ~SigScanning();
+    ~SigScanningFile();
 
     void FindOffsets( stdString sModuleName , Pointer pAddress , Pointer pTemp , HEX Size , std::vector<Byte> bytes , bool *pbFoundAOnce = nullptr );
 
     void Scan( std::vector<Byte> bytes , stdString Module = TEXT( "NoModules" ) );
+
+    void Scan( std::string sBytes , stdString Module = TEXT( "NoModules" ) );
 
     void PrintAllOffsets();
 
