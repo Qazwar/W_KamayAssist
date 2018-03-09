@@ -17,14 +17,12 @@ namespace N_VirtualMemory
 		VirtualMemoryFlags( std::vector<uHEX32> &hFlags )
 		{
 			m_hFlags = hFlags;
-			m_hOldFlagsAPI.resize( m_hFlags.size() );
 		}
 
 		VirtualMemoryFlags( size_t sSize , uHEX32 hFlags )
 		{
 			m_hFlags.clear();
 			m_hFlags.resize( sSize );
-			m_hOldFlagsAPI.resize( sSize );
 
 			for ( auto &&i : m_hFlags )
 				i = hFlags;
@@ -52,7 +50,7 @@ namespace N_VirtualMemory
 			m_hFlags.clear();
 		}
 
-		std::vector<uHEX32> m_hFlags , m_hOldFlagsAPI;
+		std::vector<uHEX32> m_hFlags;
 	};
 
 	VirtualMemoryFlags &FillVirtualMemoryFlags( size_t sSize , uHEX32 hFlags );

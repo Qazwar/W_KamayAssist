@@ -1,12 +1,5 @@
 ﻿#include "Lib.hxx"
 
-/*std::vector<N_VirtualMemory::VirtualMemoryFlag> &N_VirtualMemory::FillVirtualMemoryFlags( Pointer pAddress , HEX HexSize , uHEX32 HexFlag )
-{
-	std::vector<VirtualMemoryFlag> *Flags = new std::vector<VirtualMemoryFlag>();
-	Flags->push_back( VirtualMemoryFlag( pAddress , HexSize , HexFlag ) );
-	return *Flags;
-}*/
-
 N_VirtualMemory::VirtualMemoryFlags &N_VirtualMemory::FillVirtualMemoryFlags( size_t sSize , uHEX32 hFlags )
 {
 	std::vector<uHEX32> vhFlags( sSize );
@@ -34,17 +27,45 @@ bool N_VirtualMemory::VirtualModifyProtectionFlags( Pointer pAddress
 	return bReturn;
 }
 
+class RememberVirtualFlags
+{
+public:
+
+	RememberVirtualFlags( uHEX32 hFlags , size_t start , size_t end )
+	{
+		m_hFlags = m_hFlags;
+		m_start = start;
+		m_end = end;
+	}
+
+	uHEX32 m_hFlags;
+	size_t m_start , m_end;
+};
+
 bool N_VirtualMemory::VirtualModifyProtectionFlags( Pointer pAddress
 													, Pointer pProcess
 													, VirtualMemoryFlags& Flags )
 {
 	bool bReturn = true;
 
-	Flags.m_hOldFlagsAPI.resize( Flags.m_hFlags.size() );
+	size_t sRememberSlot = 0;
+	uHEX32 hFirstFlag = Flags.m_hFlags[ sRememberSlot ];
 
-	for ( size_t i = 0; i < Flags.m_hFlags.size(); i++ )
+	std::vector<RememberVirtualFlags> RVF;
+
+	for ( size_t i = 0; i != Flags.m_hFlags.size(); i++ )
 	{
-		if ( !VirtualModifyProtectionFlags( ( Pointer ) ( ( size_t ) pAddress + i ) , pProcess , 1 , Flags.m_hFlags[ i ] , &Flags.m_hOldFlagsAPI[ i ] ) )
+		if ( hFirstFlag != Flags.m_hFlags[ i ] )
+		{
+			RVF.push_back( RememberVirtualFlags( hFirstFlag , sRememberSlot , i ) );
+			sRememberSlot = i;
+			hFirstFlag = Flags.m_hFlags[ i ];
+		}
+	}
+
+	for ( auto &&it : RVF )
+	{
+		if ( !VirtualModifyProtectionFlags( ( Pointer ) ( ( size_t ) pAddress + it.m_start ) , pProcess , it.m_end , it.m_hFlags ) )
 			bReturn = false;
 	}
 
@@ -722,7 +743,15 @@ bool N_VirtualMemory::ReplaceVirtualMemory_S( Pointer pFromAddress , Pointer pAd
 	N_Console::PrintBytesDebug( ( Bytes ) pTempSource , HexSizeOfSource , TEXT( "pTempSource_ReplaceVMs" ) );
 	N_Console::PrintBytesDebug( ( Bytes ) pTempDestination , HexSizeOfDestination , TEXT( "pTempDestination_ReplaceVMs" ) );
 
-	FlagsDestination = FlagsSource;
+	FlagsDestination.m_hFlags.resize( HexNewSize );
+
+	if ( HexMaxSizeToWrite > HexSizeOfDestination )
+	{
+		for ( HEX i = HexSizeOfDestination; i != HexNewSize; i++ )
+		{
+			FlagsDestination.m_hFlags[ i ] = FlagsSource.m_hFlags[ i - HexSizeOfDestination ];
+		}
+	}
 
 	Pointer pOldAddressDestination = pAddressDestination;
 
