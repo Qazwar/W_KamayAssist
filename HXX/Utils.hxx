@@ -131,13 +131,13 @@ void SetClipBoard( const stdString &s );
 // Allocating memory (not forcely virtual)
 template<typename T = Pointer> __forceinline T Alloc( HEX Size )
 {
-    return ::operator new( Size );
+	return ::operator new( Size );
 }
 
 // Freeing memory (not forcely virtual)
 template<typename T = Pointer> __forceinline void FreeAlloc( T pBuf )
 {
-    ::operator delete( pBuf );
+	::operator delete( pBuf );
 }
 
 // Relative Virtual Address (Rva-> offset located temporary on the cache of the disk) _ (RawData -> offset on the disk)
@@ -155,58 +155,58 @@ uHEX32 GetProtectionOfSection( PIMAGE_SECTION_HEADER Section );
 
 template<typename T = HEX> __forceinline T _GetModule( const String* sModuleName , HEX HexAddressToAdd = 0 )
 {
-    return ( T ) ( ( HEX ) GetModuleHandle( sModuleName ) + HexAddressToAdd );
+	return ( T ) ( ( HEX ) GetModuleHandle( sModuleName ) + HexAddressToAdd );
 }
 
 template<typename T = pPointer> __forceinline T _VTable( Pointer pAddress )
 {
-    return *( T* ) ( pAddress );
+	return *( T* ) ( pAddress );
 }
 
 template<typename T = Pointer> __forceinline T _VirtualFunction( Pointer pAddress , int iIndex )
 {
-    return ( T ) ( _VTable( pAddress )[ iIndex ] );
+	return ( T ) ( _VTable( pAddress )[ iIndex ] );
 }
 
 template< typename RetType = void , typename P = Pointer , typename ... vArgs > __forceinline RetType _CallVirtualFunction( P pAddress , int iIndex , vArgs ... pArgs )
 {
-    return ( ( RetType( __thiscall* )( P , vArgs ... ) ) _VTable( pAddress )[ iIndex ] ) ( pAddress , pArgs ... );
+	return ( ( RetType( __thiscall* )( P , vArgs ... ) ) _VTable( pAddress )[ iIndex ] ) ( pAddress , pArgs ... );
 }
 
 template<typename T = Pointer> __forceinline T _Function( Pointer pAddress )
 {
-    return ( T ) ( pAddress );
+	return ( T ) ( pAddress );
 }
 
 enum E_CallingConvention
 {
-    e_thiscall ,
-    e_fastcall ,
-    e_stdcall ,
-    e_nothing
+	e_thiscall ,
+	e_fastcall ,
+	e_stdcall ,
+	e_nothing
 };
 
 template< typename RetType = void , typename ... vArgs > __forceinline RetType _CallFunction( E_CallingConvention CallingConvention , Pointer pAddress , vArgs ... pArgs )
 {
-    if ( CallingConvention == e_thiscall )
-    {
-        return ( ( RetType( __thiscall* )( vArgs ... ) ) pAddress ) ( pArgs ... );
-    }
-    else if ( CallingConvention == e_fastcall )
-    {
-        return ( ( RetType( __fastcall* )( vArgs ... ) ) pAddress ) ( pArgs ... );
-    }
-    else if ( CallingConvention == e_stdcall )
-    {
-        return ( ( RetType( __stdcall* )( vArgs ... ) ) pAddress ) ( pArgs ... );
-    }
-    else
-        return ( ( RetType( *)( vArgs ... ) ) pAddress ) ( pArgs ... );
+	if ( CallingConvention == e_thiscall )
+	{
+		return ( ( RetType( __thiscall* )( vArgs ... ) ) pAddress ) ( pArgs ... );
+	}
+	else if ( CallingConvention == e_fastcall )
+	{
+		return ( ( RetType( __fastcall* )( vArgs ... ) ) pAddress ) ( pArgs ... );
+	}
+	else if ( CallingConvention == e_stdcall )
+	{
+		return ( ( RetType( __stdcall* )( vArgs ... ) ) pAddress ) ( pArgs ... );
+	}
+	else
+		return ( ( RetType( *)( vArgs ... ) ) pAddress ) ( pArgs ... );
 }
 
 template<typename T = Pointer> __forceinline T _Cast( Pointer pTemp )
 {
-    return ( T ) ( pTemp );
+	return ( T ) ( pTemp );
 }
 
 // Just a class to call our entrypoint later in manual mapping.
@@ -216,29 +216,29 @@ class DllMain64
 {
 public:
 
-    DllMain64( Pointer _EntryPoint , uHEX64 _Module , uHEX64 _Reason , uHEX64 _Reserved );
+	DllMain64( uHEX64 _EntryPoint , uHEX64 _Module , uHEX64 _Reason , uHEX64 _Reserved );
 
-    Pointer EntryPoint;
-    uHEX64 Module , Reason , Reserved;
+	uHEX64 EntryPoint;
+	uHEX64 Module , Reason , Reserved;
 };
 
 class DllMain
 {
 public:
 
-    DllMain( Pointer _EntryPoint , Pointer _Module , Pointer _Reason , Pointer _Reserved );
+	DllMain( Pointer _EntryPoint , Pointer _Module , Pointer _Reason , Pointer _Reserved );
 
-    Pointer EntryPoint , Module , Reason , Reserved;
+	Pointer EntryPoint , Module , Reason , Reserved;
 };
 
 class DllMain32
 {
 public:
 
-    DllMain32( Pointer _EntryPoint , uHEX32 _Module , uHEX32 _Reason , uHEX32 _Reserved );
+	DllMain32( uHEX32 _EntryPoint , uHEX32 _Module , uHEX32 _Reason , uHEX32 _Reserved );
 
-    Pointer EntryPoint;
-    uHEX32 Module , Reason , Reserved;
+	uHEX32 EntryPoint;
+	uHEX32 Module , Reason , Reserved;
 };
 
 stdString sTime();
@@ -247,17 +247,17 @@ class CTimer
 {
 public:
 
-    CTimer();
+	CTimer();
 
-    void Clear();
+	void Clear();
 
-    void Start();
+	void Start();
 
-    void End();
+	void End();
 
-    LARGE_INTEGER lgFrequency;
-    LARGE_INTEGER lgt1 , lgt2;
-    double dElapsedTime;
+	LARGE_INTEGER lgFrequency;
+	LARGE_INTEGER lgt1 , lgt2;
+	double dElapsedTime;
 };
 
 //https://www.codeproject.com/Tips/139349/Getting-the-address-of-a-function-in-a-DLL-loaded

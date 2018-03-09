@@ -33,7 +33,7 @@ public:
 
 	RememberVirtualFlags( uHEX32 hFlags , size_t start , size_t end )
 	{
-		m_hFlags = m_hFlags;
+		m_hFlags = hFlags;
 		m_start = start;
 		m_end = end;
 	}
@@ -57,7 +57,7 @@ bool N_VirtualMemory::VirtualModifyProtectionFlags( Pointer pAddress
 	{
 		if ( hFirstFlag != Flags.m_hFlags[ i ] )
 		{
-			RVF.push_back( RememberVirtualFlags( hFirstFlag , sRememberSlot , i ) );
+			RVF.push_back( RememberVirtualFlags( hFirstFlag , sRememberSlot , i - sRememberSlot ) );
 			sRememberSlot = i;
 			hFirstFlag = Flags.m_hFlags[ i ];
 		}
@@ -65,8 +65,11 @@ bool N_VirtualMemory::VirtualModifyProtectionFlags( Pointer pAddress
 
 	for ( auto &&it : RVF )
 	{
-		if ( !VirtualModifyProtectionFlags( ( Pointer ) ( ( size_t ) pAddress + it.m_start ) , pProcess , it.m_end , it.m_hFlags ) )
+		if ( !VirtualModifyProtectionFlags( ( Pointer ) ( ( HEX ) pAddress + ( HEX ) it.m_start ) , pProcess , ( HEX ) it.m_end , it.m_hFlags ) )
+		{
+			N_Console::PrintDebug( TEXT( "[VirtualModifyProtectionFlags] Failed. (0x%p)\n" ) , GetLastError() );
 			bReturn = false;
+		}
 	}
 
 	return bReturn;

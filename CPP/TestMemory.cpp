@@ -134,6 +134,10 @@ int WINAPI wWinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , PWSTR pCmdL
 		}
 	}
 
+	while ( true )
+	{
+	}
+
 	delete pProcess;
 	N_Console::Pause();
 
