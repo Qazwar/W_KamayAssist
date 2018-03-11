@@ -61,6 +61,11 @@ bool N_VirtualMemory::VirtualModifyProtectionFlags( Pointer pAddress
 			sRememberSlot = i;
 			hFirstFlag = Flags.m_hFlags[ i ];
 		}
+		
+		if ( i + 1 == Flags.m_hFlags.size() )
+		{
+			RVF.push_back( RememberVirtualFlags( Flags.m_hFlags[ i ] , sRememberSlot , i - sRememberSlot + 1 ) );
+		}
 	}
 
 	for ( auto &&it : RVF )
